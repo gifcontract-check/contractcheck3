@@ -3,8 +3,11 @@
 import { useState, useRef, type ChangeEvent } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { UploadCloud, Loader2 } from 'lucide-react';
+import { UploadCloud, Loader2, FileUp, Type } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { cn } from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 interface ContractFormProps {
     onAnalyze: (text: string) => void;
@@ -23,6 +26,7 @@ export default function ContractForm({ onAnalyze, isLoading }: ContractFormProps
             reader.onload = (e) => {
                 const fileText = e.target?.result as string;
                 setText(fileText);
+                handleSubmit(fileText);
             };
             reader.readAsText(file);
         } else {
@@ -68,64 +72,73 @@ export default function ContractForm({ onAnalyze, isLoading }: ContractFormProps
         }
     }
 
-    const handleSubmit = () => {
-        onAnalyze(text);
+    const handleSubmit = (textToAnalyze: string) => {
+        onAnalyze(textToAnalyze);
     };
 
     return (
-        <div className="space-y-6 max-w-4xl mx-auto pt-12">
-            <div 
-                className={`relative border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors bg-card ${isDragging ? 'border-primary' : 'border-muted-foreground/50 hover:border-primary'}`}
-                onClick={() => fileInputRef.current?.click()}
-                onDragEnter={handleDragEnter}
-                onDragLeave={handleDragLeave}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-            >
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    className="hidden"
-                    accept=".txt"
-                />
-                <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                    <UploadCloud className="h-10 w-10" />
-                    <p className="font-semibold">Glissez-déposez un fichier ou cliquez pour sélectionner</p>
-                    <p className="text-sm">Fichiers .txt uniquement pour le moment</p>
-                </div>
-            </div>
-            
-            <div className="relative text-center">
-                <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                        Ou collez le texte
-                    </span>
-                </div>
-            </div>
-
-            <Textarea
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                placeholder="Collez l'intégralité du texte de votre contrat ici..."
-                className="min-h-[250px] text-base"
-                aria-label="Contract text input"
-            />
-            <div className="text-center">
-                <Button onClick={handleSubmit} disabled={isLoading || !text} size="lg" className="w-full md:w-auto font-semibold">
-                    {isLoading ? (
-                        <>
-                            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                            Analyse en cours...
-                        </>
-                    ) : (
-                        'Analyser mon contrat'
-                    )}
-                </Button>
-            </div>
-        </div>
+        <Card className="w-full shadow-lg">
+            <CardContent className="p-6">
+                <Tabs defaultValue="file">
+                    <div className="flex justify-center mb-6">
+                         <TabsList className="grid w-full grid-cols-2 max-w-sm">
+                            <TabsTrigger value="file"><FileUp className="mr-2"/> Importer un fichier</TabsTrigger>
+                            <TabsTrigger value="text"><Type className="mr-2"/> Coller le texte</TabsTrigger>
+                        </TabsList>
+                    </div>
+                    <TabsContent value="file">
+                         <div 
+                            className={cn(
+                                'relative border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors', 
+                                isDragging ? 'border-primary bg-primary/10' : 'border-muted-foreground/30 hover:border-primary'
+                            )}
+                            onClick={() => fileInputRef.current?.click()}
+                            onDragEnter={handleDragEnter}
+                            onDragLeave={handleDragLeave}
+                            onDragOver={handleDragOver}
+                            onDrop={handleDrop}
+                        >
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                                className="hidden"
+                                accept=".txt"
+                                disabled={isLoading}
+                            />
+                            <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                                <UploadCloud className="h-10 w-10" />
+                                <p className="font-semibold">Cliquez pour importer votre contrat</p>
+                                <p className="text-sm">Formats supportés: .txt (max. 10MB)</p>
+                            </div>
+                        </div>
+                    </TabsContent>
+                    <TabsContent value="text">
+                        <div className="space-y-4">
+                            <Textarea
+                                value={text}
+                                onChange={(e) => setText(e.target.value)}
+                                placeholder="Collez l'intégralité du texte de votre contrat ici..."
+                                className="min-h-[200px] text-base"
+                                aria-label="Contract text input"
+                                disabled={isLoading}
+                            />
+                            <div className="text-center">
+                                <Button onClick={() => handleSubmit(text)} disabled={isLoading || !text} size="lg" className="w-full md:w-auto font-semibold">
+                                    {isLoading ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                                            Analyse en cours...
+                                        </>
+                                    ) : (
+                                        'Analyser mon contrat'
+                                    )}
+                                </Button>
+                            </div>
+                        </div>
+                    </TabsContent>
+                </Tabs>
+            </CardContent>
+        </Card>
     );
 }

@@ -3,9 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertTriangle, ShieldCheck, FileText, Lightbulb } from 'lucide-react';
 
 const getRiskInfo = (score: number) => {
-    if (score <= 3) return { text: 'text-chart-2', level: 'Faible' };
-    if (score <= 7) return { text: 'text-chart-4', level: 'Modéré' };
-    return { text: 'text-destructive', level: 'Élevé' };
+    if (score <= 3) return { text: 'text-green-600', level: 'Faible' };
+    if (score <= 7) return { text: 'text-yellow-600', level: 'Modéré' };
+    return { text: 'text-red-600', level: 'Élevé' };
 };
 
 const RiskScoreIndicator = ({ score }: { score: number }) => {
@@ -50,21 +50,21 @@ export default function AnalysisResults({ analysis }: { analysis: AnalysisRecord
             <h2 className="text-3xl font-bold text-center font-headline">Résultats de l'analyse</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 
-                <Card className="lg:col-span-1">
+                <Card className="lg:col-span-1 shadow-md">
                     <CardHeader>
-                        <CardTitle className="flex items-center gap-3">
+                        <CardTitle className="flex items-center gap-3 text-xl">
                             <FileText className="h-6 w-6 text-primary"/>
                             <span>Résumé du contrat</span>
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-card-foreground/80 whitespace-pre-wrap">{analysis.summary}</p>
+                        <p className="text-muted-foreground whitespace-pre-wrap">{analysis.summary}</p>
                     </CardContent>
                 </Card>
                 
-                <Card className="lg:col-span-1">
+                <Card className="lg:col-span-1 shadow-md">
                     <CardHeader>
-                        <CardTitle className="flex items-center gap-3">
+                        <CardTitle className="flex items-center gap-3 text-xl">
                             <ShieldCheck className="h-6 w-6 text-primary"/>
                             <span>Score de risque global</span>
                         </CardTitle>
@@ -75,9 +75,9 @@ export default function AnalysisResults({ analysis }: { analysis: AnalysisRecord
                 </Card>
 
                 {analysis.riskyClauses && analysis.riskyClauses.length > 0 && (
-                    <Card className="lg:col-span-2">
+                    <Card className="lg:col-span-2 shadow-md">
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-3">
+                            <CardTitle className="flex items-center gap-3 text-xl">
                                 <AlertTriangle className="h-6 w-6 text-destructive"/>
                                 <span>Clauses à risque identifiées</span>
                             </CardTitle>
@@ -85,25 +85,25 @@ export default function AnalysisResults({ analysis }: { analysis: AnalysisRecord
                         <CardContent className="space-y-4">
                             {analysis.riskyClauses.map((item, index) => (
                                 <div key={index} className="p-4 border-l-4 border-destructive bg-destructive/10 rounded-r-md">
-                                    <blockquote className="italic text-destructive font-semibold">
+                                    <blockquote className="italic text-foreground font-semibold">
                                         "{item.clause}"
                                     </blockquote>
-                                    <p className="mt-2 text-sm text-card-foreground/80">{item.explanation}</p>
+                                    <p className="mt-2 text-sm text-muted-foreground">{item.explanation}</p>
                                 </div>
                             ))}
                         </CardContent>
                     </Card>
                 )}
 
-                <Card className="lg:col-span-2">
+                <Card className="lg:col-span-2 shadow-md">
                     <CardHeader>
-                        <CardTitle className="flex items-center gap-3">
+                        <CardTitle className="flex items-center gap-3 text-xl">
                             <Lightbulb className="h-6 w-6 text-yellow-500"/>
                             <span>Conseils pratiques</span>
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-card-foreground/80 whitespace-pre-wrap">{analysis.practicalTips}</p>
+                        <p className="text-muted-foreground whitespace-pre-wrap">{analysis.practicalTips}</p>
                     </CardContent>
                 </Card>
             </div>
