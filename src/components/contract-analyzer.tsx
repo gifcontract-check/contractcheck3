@@ -1,0 +1,156 @@
+"use client";
+
+import { useState, useEffect } from 'react';
+import type { AnalysisRecord } from '@/types';
+import { analyzeContract } from '@/app/actions';
+import ContractForm from '@/components/contract-form';
+import AnalysisResults from '@/components/analysis-results';
+import { History, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { useToast } from "@/hooks/use-toast";
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+export default function ContractAnalyzer() {
+    const [analysis, setAnalysis] = useState<AnalysisRecord | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [history, setHistory] = useState<AnalysisRecord[]>([]);
+    const [isSheetOpen, setIsSheetOpen] = useState(false);
+    const { toast } = useToast();
+
+    useEffect(() => {
+        try {
+            const storedHistory = localStorage.getItem('contract-analysis-history');
+            if (storedHistory) {
+                setHistory(JSON.parse(storedHistory));
+            }
+        } catch (error) {
+            console.error("Failed to load history from localStorage", error);
+            toast({
+                title: "Erreur",
+                description: "Impossible de charger l'historique.",
+                variant: "destructive",
+            });
+        }
+    }, [toast]);
+
+    const saveHistory = (updatedHistory: AnalysisRecord[]) => {
+        try {
+            localStorage.setItem('contract-analysis-history', JSON.stringify(updatedHistory));
+            setHistory(updatedHistory);
+        } catch (error) {
+            console.error("Failed to save history to localStorage", error);
+             toast({
+                title: "Erreur",
+                description: "Impossible de sauvegarder l'historique.",
+                variant: "destructive",
+            });
+        }
+    }
+
+    const handleAnalyze = async (text: string) => {
+        if (!text.trim()) {
+            toast({
+                title: "Erreur",
+                description: "Veuillez fournir un texte de contrat.",
+                variant: "destructive",
+            });
+            return;
+        }
+        setIsLoading(true);
+        setAnalysis(null);
+        const result = await analyzeContract(text);
+        setIsLoading(false);
+
+        if (result.error) {
+            toast({
+                title: "Erreur d'analyse",
+                description: result.error,
+                variant: "destructive",
+            });
+        } else if (result.data) {
+            const newAnalysis: AnalysisRecord = {
+                id: new Date().toISOString(),
+                date: new Date().toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                ...result.data,
+            };
+            setAnalysis(newAnalysis);
+            const updatedHistory = [newAnalysis, ...history].slice(0, 20); // Keep last 20
+            saveHistory(updatedHistory);
+        }
+    };
+
+    const handleSelectHistory = (item: AnalysisRecord) => {
+        setAnalysis(item);
+        setIsSheetOpen(false);
+    };
+
+    const handleDeleteHistory = (e: React.MouseEvent, id: string) => {
+        e.stopPropagation();
+        const updatedHistory = history.filter(item => item.id !== id);
+        saveHistory(updatedHistory);
+        if (analysis?.id === id) {
+            setAnalysis(null);
+        }
+    };
+    
+    const handleClearHistory = () => {
+        saveHistory([]);
+        setAnalysis(null);
+        setIsSheetOpen(false);
+    }
+
+    return (
+        <div className="relative">
+            <div className="absolute top-0 right-0 z-10">
+                <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+                    <SheetTrigger asChild>
+                        <Button variant="outline">
+                            <History className="mr-2 h-4 w-4" />
+                            Historique
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent className="w-full sm:max-w-lg flex flex-col">
+                        <SheetHeader>
+                            <SheetTitle>Historique des analyses</SheetTitle>
+                        </SheetHeader>
+                        <div className="py-4 flex-1 flex flex-col min-h-0">
+                            {history.length > 0 ? (
+                                <>
+                                <ScrollArea className="flex-1 pr-4 -mr-4">
+                                    <div className="space-y-2">
+                                        {history.map(item => (
+                                            <div key={item.id} onClick={() => handleSelectHistory(item)} className="p-3 rounded-lg border cursor-pointer hover:bg-muted/50 flex justify-between items-start group">
+                                                <div>
+                                                    <p className="font-semibold text-sm line-clamp-2">{item.summary}</p>
+                                                    <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
+                                                </div>
+                                                <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 shrink-0" onClick={(e) => handleDeleteHistory(e, item.id)}>
+                                                    <X className="h-4 w-4" />
+                                                </Button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </ScrollArea>
+                                {history.length > 0 && <Button variant="destructive" onClick={handleClearHistory} className="mt-4 w-full">Vider l'historique</Button>}
+                                </>
+                            ) : (
+                                <div className="flex-1 flex items-center justify-center h-full">
+                                    <p className="text-muted-foreground">Aucun historique d'analyse.</p>
+                                </div>
+                            )}
+                        </div>
+                    </SheetContent>
+                </Sheet>
+            </div>
+            
+            <ContractForm onAnalyze={handleAnalyze} isLoading={isLoading} />
+
+            {analysis && !isLoading && (
+                <div className="mt-8">
+                    <AnalysisResults analysis={analysis} />
+                </div>
+            )}
+        </div>
+    );
+}
