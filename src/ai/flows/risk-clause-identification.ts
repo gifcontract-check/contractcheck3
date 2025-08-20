@@ -42,6 +42,7 @@ const prompt = ai.definePrompt({
 
   Analyze the following contract text and identify any clauses that could be problematic for the user.
   For each risky clause, provide the clause text and a clear explanation of why it is considered risky.
+  Your response must be in the same language as the contract text.
 
   Contract Text: {{{contractText}}}
   \n

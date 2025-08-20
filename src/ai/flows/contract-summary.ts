@@ -32,6 +32,7 @@ const prompt = ai.definePrompt({
   prompt: `You are an expert legal professional.
 
   Please provide a concise summary of the following contract, highlighting the key terms and obligations. The summary should be between 5-7 lines.
+  Your response must be in the same language as the contract text.
 
   Contract Text:
   {{contractText}}`,

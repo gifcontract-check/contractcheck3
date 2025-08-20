@@ -69,6 +69,7 @@ const practicalTipsPrompt = ai.definePrompt({
   input: {schema: PracticalTipsInputSchema},
   output: {schema: PracticalTipsOutputSchema},
   prompt: `Based on the following contract analysis, provide practical advice and recommendations to the user to help them better understand and mitigate potential risks. Provide at least 3 tips.
+  Your response must be in the same language as the contract summary.
 
 Contract Summary: {{{contractSummary}}}
 Risky Clauses: {{{riskyClauses}}}
