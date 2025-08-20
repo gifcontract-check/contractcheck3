@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="py-4 border-b bg-card">
-        <div className="container mx-auto px-6 flex justify-between items-center">
+        <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
             <div className="flex items-center gap-3">
               <div className="bg-primary text-primary-foreground p-2 rounded-lg">
                 <Shield className="h-6 w-6" />
@@ -14,17 +14,17 @@ export default function Home() {
                 ContractCheck
               </h1>
             </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
               <FileText className="h-4 w-4" />
               <span>Analyse de contrats par IA</span>
             </div>
         </div>
       </header>
-      <main className="flex-grow container mx-auto px-6 py-12">
+      <main className="flex-grow container mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <ContractAnalyzer />
       </main>
       <footer className="py-6">
-        <div className="container mx-auto px-6 text-center text-sm text-muted-foreground">
+        <div className="container mx-auto px-4 sm:px-6 text-center text-sm text-muted-foreground">
           Powered by GenAI
         </div>
       </footer>
