@@ -1,6 +1,12 @@
 import type { AnalysisRecord } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertTriangle, ShieldCheck, FileText, Lightbulb } from 'lucide-react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 const getRiskInfo = (score: number) => {
     if (score <= 3) return { text: 'text-green-600', level: 'Faible' };
@@ -103,7 +109,16 @@ export default function AnalysisResults({ analysis }: { analysis: AnalysisRecord
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-muted-foreground whitespace-pre-wrap">{analysis.practicalTips}</p>
+                        <Accordion type="single" collapsible className="w-full">
+                           {analysis.practicalTips.map((tip, index) => (
+                             <AccordionItem value={`item-${index}`} key={index}>
+                               <AccordionTrigger className="font-semibold text-left">{tip.title}</AccordionTrigger>
+                               <AccordionContent className="text-muted-foreground whitespace-pre-wrap">
+                                 {tip.content}
+                               </AccordionContent>
+                             </AccordionItem>
+                           ))}
+                        </Accordion>
                     </CardContent>
                 </Card>
             </div>

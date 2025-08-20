@@ -36,14 +36,19 @@ const PracticalTipsInputSchema = z.object({
 
 export type PracticalTipsInput = z.infer<typeof PracticalTipsInputSchema>;
 
+const TipSchema = z.object({
+  title: z.string().describe('The title of the practical tip.'),
+  content: z.string().describe('The content of the practical tip.'),
+});
+
 /**
  * Output schema for the practical tips flow.
  */
 const PracticalTipsOutputSchema = z.object({
   practicalTips: z
-    .string()
+    .array(TipSchema)
     .describe(
-      'Practical advice and recommendations based on the contract analysis to help users better understand and mitigate potential risks.'
+      'An array of practical advice and recommendations based on the contract analysis to help users better understand and mitigate potential risks.'
     ),
 });
 
@@ -63,13 +68,14 @@ const practicalTipsPrompt = ai.definePrompt({
   name: 'practicalTipsPrompt',
   input: {schema: PracticalTipsInputSchema},
   output: {schema: PracticalTipsOutputSchema},
-  prompt: `Based on the following contract analysis, provide practical advice and recommendations to the user to help them better understand and mitigate potential risks.
+  prompt: `Based on the following contract analysis, provide practical advice and recommendations to the user to help them better understand and mitigate potential risks. Provide at least 3 tips.
 
 Contract Summary: {{{contractSummary}}}
 Risky Clauses: {{{riskyClauses}}}
 Risk Score: {{{riskScore}}}
 
-Practical Tips:`,
+Format your response as a JSON object with a "practicalTips" key containing an array of objects, where each object has a "title" and a "content" field.
+`,
 });
 
 /**
