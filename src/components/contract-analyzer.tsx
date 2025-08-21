@@ -27,8 +27,8 @@ export default function ContractAnalyzer() {
         } catch (error) {
             console.error("Failed to load history from localStorage", error);
             toast({
-                title: "Error",
-                description: "Could not load history.",
+                title: "Erreur",
+                description: "Impossible de charger l'historique.",
                 variant: "destructive",
             });
         }
@@ -41,8 +41,8 @@ export default function ContractAnalyzer() {
         } catch (error) {
             console.error("Failed to save history to localStorage", error);
              toast({
-                title: "Error",
-                description: "Could not save history.",
+                title: "Erreur",
+                description: "Impossible de sauvegarder l'historique.",
                 variant: "destructive",
             });
         }
@@ -51,8 +51,8 @@ export default function ContractAnalyzer() {
     const handleAnalyze = async (text: string) => {
         if (!text.trim()) {
             toast({
-                title: "Error",
-                description: "Please provide contract text.",
+                title: "Erreur",
+                description: "Veuillez fournir le texte du contrat.",
                 variant: "destructive",
             });
             return;
@@ -64,14 +64,14 @@ export default function ContractAnalyzer() {
 
         if (result.error) {
             toast({
-                title: "Analysis Error",
+                title: "Erreur d'analyse",
                 description: result.error,
                 variant: "destructive",
             });
         } else if (result.data) {
             const newAnalysis: AnalysisRecord = {
                 id: new Date().toISOString(),
-                date: new Date().toLocaleString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                date: new Date().toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
                 ...result.data,
             };
             setAnalysis(newAnalysis);
@@ -104,21 +104,21 @@ export default function ContractAnalyzer() {
         <div className="max-w-4xl mx-auto">
              <div className="flex justify-between items-center mb-8">
                 <div className="text-left">
-                    <h2 className="text-4xl font-bold text-foreground">Analyze your contracts</h2>
+                    <h2 className="text-4xl font-bold text-foreground">Analysez vos contrats</h2>
                     <p className="mt-2 text-lg text-muted-foreground">
-                        Your AI lawyer that highlights risky clauses before you sign.
+                        Votre juriste IA qui surligne les clauses à risque avant que vous ne signiez.
                     </p>
                 </div>
                 <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                     <SheetTrigger asChild>
                         <Button variant="outline">
                             <History className="mr-2 h-4 w-4" />
-                            History
+                            Historique
                         </Button>
                     </SheetTrigger>
                     <SheetContent className="w-full sm:max-w-lg flex flex-col">
                         <SheetHeader>
-                            <SheetTitle>Analysis History</SheetTitle>
+                            <SheetTitle>Historique des analyses</SheetTitle>
                         </SheetHeader>
                         <div className="py-4 flex-1 flex flex-col min-h-0">
                             {history.length > 0 ? (
@@ -138,11 +138,11 @@ export default function ContractAnalyzer() {
                                         ))}
                                     </div>
                                 </ScrollArea>
-                                {history.length > 0 && <Button variant="destructive" onClick={handleClearHistory} className="mt-4 w-full">Clear history</Button>}
+                                {history.length > 0 && <Button variant="destructive" onClick={handleClearHistory} className="mt-4 w-full">Effacer l'historique</Button>}
                                 </>
                             ) : (
                                 <div className="flex-1 flex items-center justify-center h-full">
-                                    <p className="text-muted-foreground">No analysis history.</p>
+                                    <p className="text-muted-foreground">Aucun historique d'analyse.</p>
                                 </div>
                             )}
                         </div>

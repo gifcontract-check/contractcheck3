@@ -9,9 +9,9 @@ import {
 } from "@/components/ui/accordion"
 
 const getRiskInfo = (score: number) => {
-    if (score <= 3) return { text: 'text-green-600', level: 'Low' };
-    if (score <= 7) return { text: 'text-yellow-600', level: 'Medium' };
-    return { text: 'text-red-600', level: 'High' };
+    if (score <= 3) return { text: 'text-green-600', level: 'Faible' };
+    if (score <= 7) return { text: 'text-yellow-600', level: 'Moyen' };
+    return { text: 'text-red-600', level: 'Élevé' };
 };
 
 const RiskScoreIndicator = ({ score }: { score: number }) => {
@@ -45,10 +45,10 @@ const RiskScoreIndicator = ({ score }: { score: number }) => {
                      <text x="50" y="52" textAnchor="middle" dy=".3em" className="text-4xl font-bold fill-current text-foreground">{score}</text>
                  </svg>
              </div>
-             <p className="text-xl font-bold">Risk Level: <span className={textColor}>{level}</span></p>
+             <p className="text-xl font-bold">Niveau de risque : <span className={textColor}>{level}</span></p>
              <div className="flex justify-between w-full max-w-xs text-xs text-muted-foreground">
-                <span>Low Risk (1)</span>
-                <span>High Risk (10)</span>
+                <span>Risque faible (1)</span>
+                <span>Risque élevé (10)</span>
             </div>
         </div>
     );
@@ -57,14 +57,14 @@ const RiskScoreIndicator = ({ score }: { score: number }) => {
 export default function AnalysisResults({ analysis }: { analysis: AnalysisRecord }) {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
-            <h2 className="text-3xl font-bold text-center font-headline">Analysis Results</h2>
+            <h2 className="text-3xl font-bold text-center font-headline">Résultats de l'analyse</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 
                 <Card className="lg:col-span-1 shadow-md">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-3 text-xl">
                             <FileText className="h-6 w-6 text-primary"/>
-                            <span>Contract Summary</span>
+                            <span>Résumé du contrat</span>
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -76,7 +76,7 @@ export default function AnalysisResults({ analysis }: { analysis: AnalysisRecord
                     <CardHeader>
                         <CardTitle className="flex items-center gap-3 text-xl">
                             <ShieldCheck className="h-6 w-6 text-primary"/>
-                            <span>Overall Risk Score</span>
+                            <span>Score de risque global</span>
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -89,7 +89,7 @@ export default function AnalysisResults({ analysis }: { analysis: AnalysisRecord
                         <CardHeader>
                             <CardTitle className="flex items-center gap-3 text-xl">
                                 <AlertTriangle className="h-6 w-6 text-destructive"/>
-                                <span>Identified Risky Clauses</span>
+                                <span>Clauses à risque identifiées</span>
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
@@ -109,7 +109,7 @@ export default function AnalysisResults({ analysis }: { analysis: AnalysisRecord
                     <CardHeader>
                         <CardTitle className="flex items-center gap-3 text-xl">
                             <Lightbulb className="h-6 w-6 text-yellow-500"/>
-                            <span>Practical Tips</span>
+                            <span>Conseils pratiques</span>
                         </CardTitle>
                     </CardHeader>
                     <CardContent>

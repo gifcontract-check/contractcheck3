@@ -16,7 +16,7 @@ export default function Home() {
             </div>
             <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
               <FileText className="h-4 w-4" />
-              <span>AI-powered contract analysis</span>
+              <span>Analyse de contrats par IA</span>
             </div>
         </div>
       </header>
@@ -26,7 +26,7 @@ export default function Home() {
       <footer className="py-6">
         <div className="container mx-auto px-4 sm:px-6 text-center text-sm text-muted-foreground">
           <p>Powered by ContractCheckAi</p>
-          <p className="mt-1">2025 Contract Check. All rights reserved</p>
+          <p className="mt-1">2025 Contract Check. Tous droits réservés</p>
         </div>
       </footer>
     </div>
