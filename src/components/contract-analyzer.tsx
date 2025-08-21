@@ -102,56 +102,55 @@ export default function ContractAnalyzer() {
 
     return (
         <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-                <h2 className="text-4xl font-bold text-foreground">Analysez vos contrats en quelques secondes</h2>
-                <p className="mt-2 text-lg text-muted-foreground">
-                    Votre avocat IA qui surligne les clauses à risque avant que vous signiez.
-                </p>
+             <div className="flex justify-between items-center mb-8">
+                <div className="text-left">
+                    <h2 className="text-4xl font-bold text-foreground">Analysez vos contrats</h2>
+                    <p className="mt-2 text-lg text-muted-foreground">
+                        Votre avocat IA qui surligne les clauses à risque avant que vous signiez.
+                    </p>
+                </div>
+                <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+                    <SheetTrigger asChild>
+                        <Button variant="outline">
+                            <History className="mr-2 h-4 w-4" />
+                            Historique
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent className="w-full sm:max-w-lg flex flex-col">
+                        <SheetHeader>
+                            <SheetTitle>Historique des analyses</SheetTitle>
+                        </SheetHeader>
+                        <div className="py-4 flex-1 flex flex-col min-h-0">
+                            {history.length > 0 ? (
+                                <>
+                                <ScrollArea className="flex-1 pr-4 -mr-4">
+                                    <div className="space-y-2">
+                                        {history.map(item => (
+                                            <div key={item.id} onClick={() => handleSelectHistory(item)} className="p-3 rounded-lg border cursor-pointer hover:bg-muted/50 flex justify-between items-start group">
+                                                <div>
+                                                    <p className="font-semibold text-sm line-clamp-2">{item.summary}</p>
+                                                    <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
+                                                </div>
+                                                <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 shrink-0" onClick={(e) => handleDeleteHistory(e, item.id)}>
+                                                    <X className="h-4 w-4" />
+                                                </Button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </ScrollArea>
+                                {history.length > 0 && <Button variant="destructive" onClick={handleClearHistory} className="mt-4 w-full">Vider l'historique</Button>}
+                                </>
+                            ) : (
+                                <div className="flex-1 flex items-center justify-center h-full">
+                                    <p className="text-muted-foreground">Aucun historique d'analyse.</p>
+                                </div>
+                            )}
+                        </div>
+                    </SheetContent>
+                </Sheet>
             </div>
             
             <div className="relative">
-                 <div className="absolute -top-4 right-0 z-10">
-                    <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-                        <SheetTrigger asChild>
-                            <Button variant="ghost">
-                                <History className="mr-2 h-4 w-4" />
-                                Historique
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent className="w-full sm:max-w-lg flex flex-col">
-                            <SheetHeader>
-                                <SheetTitle>Historique des analyses</SheetTitle>
-                            </SheetHeader>
-                            <div className="py-4 flex-1 flex flex-col min-h-0">
-                                {history.length > 0 ? (
-                                    <>
-                                    <ScrollArea className="flex-1 pr-4 -mr-4">
-                                        <div className="space-y-2">
-                                            {history.map(item => (
-                                                <div key={item.id} onClick={() => handleSelectHistory(item)} className="p-3 rounded-lg border cursor-pointer hover:bg-muted/50 flex justify-between items-start group">
-                                                    <div>
-                                                        <p className="font-semibold text-sm line-clamp-2">{item.summary}</p>
-                                                        <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
-                                                    </div>
-                                                    <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 shrink-0" onClick={(e) => handleDeleteHistory(e, item.id)}>
-                                                        <X className="h-4 w-4" />
-                                                    </Button>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </ScrollArea>
-                                    {history.length > 0 && <Button variant="destructive" onClick={handleClearHistory} className="mt-4 w-full">Vider l'historique</Button>}
-                                    </>
-                                ) : (
-                                    <div className="flex-1 flex items-center justify-center h-full">
-                                        <p className="text-muted-foreground">Aucun historique d'analyse.</p>
-                                    </div>
-                                )}
-                            </div>
-                        </SheetContent>
-                    </Sheet>
-                </div>
-
                 <ContractForm onAnalyze={handleAnalyze} isLoading={isLoading} />
             </div>
 
