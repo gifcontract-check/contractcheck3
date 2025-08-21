@@ -46,6 +46,10 @@ const RiskScoreIndicator = ({ score }: { score: number }) => {
                  </svg>
              </div>
              <p className="text-xl font-bold">Niveau de risque: <span className={textColor}>{level}</span></p>
+             <div className="flex justify-between w-full max-w-xs text-xs text-muted-foreground">
+                <span>Risque faible (1)</span>
+                <span>Risque élevé (10)</span>
+            </div>
         </div>
     );
 };
