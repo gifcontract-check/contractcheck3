@@ -25,7 +25,8 @@ export default function Home() {
       </main>
       <footer className="py-6">
         <div className="container mx-auto px-4 sm:px-6 text-center text-sm text-muted-foreground">
-          Powered by ContractCheckAi
+          <p>Powered by ContractCheckAi</p>
+          <p className="mt-1">2025 Contract Check. Tous droits réservés</p>
         </div>
       </footer>
     </div>
