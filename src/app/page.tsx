@@ -25,7 +25,7 @@ export default function Home() {
       </main>
       <footer className="py-6">
         <div className="container mx-auto px-4 sm:px-6 text-center text-sm text-muted-foreground">
-          Powered by GenAI
+          Powered by ContractCheckAi
         </div>
       </footer>
     </div>
