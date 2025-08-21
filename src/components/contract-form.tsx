@@ -31,8 +31,8 @@ export default function ContractForm({ onAnalyze, isLoading }: ContractFormProps
             reader.readAsText(file);
         } else {
             toast({
-                title: "Type de fichier non supporté",
-                description: "Veuillez télécharger un fichier .txt. Le support des PDF sera bientôt disponible.",
+                title: "Unsupported file type",
+                description: "Please upload a .txt file. PDF support is coming soon.",
                 variant: "destructive",
             });
         }
@@ -82,8 +82,8 @@ export default function ContractForm({ onAnalyze, isLoading }: ContractFormProps
                 <Tabs defaultValue="file">
                     <div className="flex justify-center mb-6">
                          <TabsList className="grid w-full grid-cols-2 max-w-sm">
-                            <TabsTrigger value="file"><FileUp className="mr-2"/> Importer un fichier</TabsTrigger>
-                            <TabsTrigger value="text"><Type className="mr-2"/> Coller le texte</TabsTrigger>
+                            <TabsTrigger value="file"><FileUp className="mr-2"/> Upload file</TabsTrigger>
+                            <TabsTrigger value="text"><Type className="mr-2"/> Paste text</TabsTrigger>
                         </TabsList>
                     </div>
                     <TabsContent value="file">
@@ -108,8 +108,8 @@ export default function ContractForm({ onAnalyze, isLoading }: ContractFormProps
                             />
                             <div className="flex flex-col items-center gap-2 text-muted-foreground">
                                 <UploadCloud className="h-10 w-10" />
-                                <p className="font-semibold">Cliquez pour importer votre contrat</p>
-                                <p className="text-sm">Formats supportés: .txt (max. 10MB)</p>
+                                <p className="font-semibold">Click to upload your contract</p>
+                                <p className="text-sm">Supported formats: .txt (max. 10MB)</p>
                             </div>
                         </div>
                     </TabsContent>
@@ -118,7 +118,7 @@ export default function ContractForm({ onAnalyze, isLoading }: ContractFormProps
                             <Textarea
                                 value={text}
                                 onChange={(e) => setText(e.target.value)}
-                                placeholder="Collez l'intégralité du texte de votre contrat ici..."
+                                placeholder="Paste the full text of your contract here..."
                                 className="min-h-[200px] text-base"
                                 aria-label="Contract text input"
                                 disabled={isLoading}
@@ -128,10 +128,10 @@ export default function ContractForm({ onAnalyze, isLoading }: ContractFormProps
                                     {isLoading ? (
                                         <>
                                             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                                            Analyse en cours...
+                                            Analyzing...
                                         </>
                                     ) : (
-                                        'Analyser mon contrat'
+                                        'Analyze my contract'
                                     )}
                                 </Button>
                             </div>

@@ -35,7 +35,7 @@ const prompt = ai.definePrompt({
   Your response must be in the same language as the contract text.
 
   Contract Text:
-  {{contractText}}`,
+  {{{contractText}}}`,
 });
 
 const summarizeContractFlow = ai.defineFlow(
