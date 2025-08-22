@@ -16,28 +16,14 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Crown, Check, Loader2 } from 'lucide-react';
 
 export default function SubscriptionDialog() {
-  const [isPro, setIsPro] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleUpgrade = () => {
     setIsLoading(true);
-    // Simulating a network request
-    setTimeout(() => {
-      setIsPro(true);
-      setIsLoading(false);
-      router.push('/success');
-    }, 1500);
+    // Navigate to a payment page
+    router.push('/payment');
   };
-
-  if (isPro) {
-    return (
-        <div className="flex items-center gap-2 text-sm font-semibold text-primary">
-            <Crown className="h-5 w-5" />
-            <span>Plan Pro</span>
-        </div>
-    );
-  }
 
   return (
     <Dialog>
