@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CreditCard, Lock } from "lucide-react";
+import { CreditCard, Lock, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function PaymentPage() {
@@ -12,6 +12,9 @@ export default function PaymentPage() {
       <header className="py-4 border-b bg-card">
         <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
             <Link href="/" className="flex items-center gap-3">
+              <Button variant="ghost" size="icon">
+                  <ArrowLeft className="h-6 w-6" />
+              </Button>
               <div className="bg-primary text-primary-foreground p-2 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
