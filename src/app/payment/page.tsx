@@ -72,7 +72,9 @@ export default function PaymentPage() {
                   <Input id="cvc" placeholder="CVC" />
                 </div>
               </div>
-              <Button className="w-full" size="lg">Payer 9.99€</Button>
+              <Link href="/success" className="w-full">
+                <Button className="w-full" size="lg">Payer 9.99€</Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
