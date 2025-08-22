@@ -1,4 +1,5 @@
 import ContractAnalyzer from '@/components/contract-analyzer';
+import SubscriptionDialog from '@/components/subscription-dialog';
 import { FileText, Shield } from 'lucide-react';
 
 export default function Home() {
@@ -14,9 +15,12 @@ export default function Home() {
                 ContractCheck
               </h1>
             </div>
-            <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
-              <FileText className="h-4 w-4" />
-              <span>Analyse de contrats par IA</span>
+            <div className="flex items-center gap-4">
+              <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
+                <FileText className="h-4 w-4" />
+                <span>Analyse de contrats par IA</span>
+              </div>
+              <SubscriptionDialog />
             </div>
         </div>
       </header>
