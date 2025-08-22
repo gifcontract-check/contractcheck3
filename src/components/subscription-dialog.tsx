@@ -1,3 +1,8 @@
+
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -8,9 +13,32 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Crown, Check } from 'lucide-react';
+import { Crown, Check, Loader2 } from 'lucide-react';
 
 export default function SubscriptionDialog() {
+  const [isPro, setIsPro] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const handleUpgrade = () => {
+    setIsLoading(true);
+    // Simulating a network request
+    setTimeout(() => {
+      setIsPro(true);
+      setIsLoading(false);
+      router.push('/success');
+    }, 1500);
+  };
+
+  if (isPro) {
+    return (
+        <div className="flex items-center gap-2 text-sm font-semibold text-primary">
+            <Crown className="h-5 w-5" />
+            <span>Plan Pro</span>
+        </div>
+    );
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -79,7 +107,16 @@ export default function SubscriptionDialog() {
                   <span>Conseils pratiques améliorés</span>
                 </li>
               </ul>
-              <Button className="w-full mt-4">Choisir le plan Pro</Button>
+              <Button className="w-full mt-4" onClick={handleUpgrade} disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <span>Chargement...</span>
+                  </>
+                ) : (
+                  'Choisir le plan Pro'
+                )}
+              </Button>
             </CardContent>
           </Card>
         </div>

@@ -1,8 +1,18 @@
+
+'use client';
+
 import ContractAnalyzer from '@/components/contract-analyzer';
 import SubscriptionDialog from '@/components/subscription-dialog';
 import { FileText, Shield } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+
 
 export default function Home() {
+  const pathname = usePathname();
+
+  // Do not render subscription dialog on success page
+  const showSubscription = pathname !== '/success';
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="py-4 border-b bg-card">
@@ -20,7 +30,7 @@ export default function Home() {
                 <FileText className="h-4 w-4" />
                 <span>Analyse de contrats par IA</span>
               </div>
-              <SubscriptionDialog />
+              {showSubscription && <SubscriptionDialog />}
             </div>
         </div>
       </header>
