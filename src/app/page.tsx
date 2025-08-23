@@ -2,7 +2,6 @@
 'use client';
 
 import ContractAnalyzer from '@/components/contract-analyzer';
-import SubscriptionDialog from '@/components/subscription-dialog';
 import { FileText, Shield } from 'lucide-react';
 
 
@@ -25,7 +24,6 @@ export default function Home() {
                 <FileText className="h-4 w-4" />
                 <span>Analyse de contrats par IA</span>
               </div>
-              <SubscriptionDialog />
             </div>
         </div>
       </header>
